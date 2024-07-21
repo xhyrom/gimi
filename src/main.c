@@ -22,26 +22,5 @@ int main(int argc, char **argv) {
 
   cli_handle(argc, argv);
 
-  /*int opt;
-  opterr = 0;
-  while ((opt = getopt(argc, argv, "hv")) != -1) {
-    switch (opt) {
-    case 'h': {
-      print_help();
-      break;
-    }
-    case 'v': {
-      print_version();
-      break;
-    }
-    default: {
-      printf("unknown option -%c\n", (char)optopt);
-      return 1;
-    }
-    }
-  }
-  argc -= optind;
-  argv += optind;
-*/
   return 0;
 }
