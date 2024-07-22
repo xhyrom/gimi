@@ -41,6 +41,8 @@ struct gimi_config *config_read() {
         (struct gimi_config_provider *)malloc(
             sizeof(struct gimi_config_provider));
 
+    provider->name = strdup(key);
+
     toml_datum_t ssh = toml_string_in(toml_provider, "ssh");
     provider->ssh = strdup(ssh.u.s);
 

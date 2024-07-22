@@ -1,6 +1,7 @@
 #include <stdbool.h>
 
 struct gimi_config_provider {
+  char *name;
   char *ssh;
   bool primary;
 };
