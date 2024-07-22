@@ -1,4 +1,5 @@
 #include "../../config.h"
+#include <linux/limits.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -29,17 +30,11 @@ int provider_info(int argc, char **argv) {
   if (!cfg)
     return 1;
 
-  struct gimi_config_provider *provider = NULL;
-  for (int i = 0; i < cfg->providers_size; i++) {
-    if (strcmp(cfg->providers[i]->name, argv[1]) == 0) {
-      provider = cfg->providers[i];
-    }
-  }
-
+  struct gimi_config_provider *provider = config_find_provider(cfg, argv[1]);
   config_free(cfg);
 
   if (!provider) {
-    printf("No such provider '%s'", argv[1]);
+    printf("error: no such provider '%s'", argv[1]);
     return 1;
   }
 
@@ -48,6 +43,35 @@ int provider_info(int argc, char **argv) {
   printf("primary: %d\n", provider->primary);
 
   free(provider);
+
+  return 0;
+}
+
+int provider_sync(int argc, char **argv) {
+  if (argc == 1) {
+    printf("usage: gimi provider sync [--all] [name]");
+    return 1;
+  }
+
+  struct gimi_config *cfg = config_read();
+  if (!cfg)
+    return 1;
+
+  struct gimi_config_provider *provider = config_find_provider(cfg, argv[1]);
+  config_free(cfg);
+
+  char command[100];
+  snprintf(command, sizeof(command), "git remote add %s %s", provider->name,
+           provider->ssh);
+
+  int ret = system(command);
+  if (ret != 0) {
+    printf("error: failed to sync provider '%s' with git's exit code %d.",
+           provider->name, ret);
+  } else {
+    printf("info: provider '%s' has been successfully synced with git.",
+           provider->name);
+  }
 
   return 0;
 }
@@ -65,6 +89,10 @@ int cli_command_provider(int argc, char **argv) {
 
   if (strcmp(subcommand, "info") == 0) {
     return provider_info(argc, argv);
+  }
+
+  if (strcmp(subcommand, "sync") == 0) {
+    return provider_sync(argc, argv);
   }
 
   return 0;

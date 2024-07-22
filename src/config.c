@@ -67,3 +67,15 @@ void config_free(struct gimi_config *cfg) {
   free(cfg->providers);
   free(cfg);
 }
+
+struct gimi_config_provider *config_find_provider(struct gimi_config *cfg,
+                                                  char *name) {
+  struct gimi_config_provider *provider = NULL;
+  for (int i = 0; i < cfg->providers_size; i++) {
+    if (strcmp(cfg->providers[i]->name, name) == 0) {
+      provider = cfg->providers[i];
+    }
+  }
+
+  return provider;
+}

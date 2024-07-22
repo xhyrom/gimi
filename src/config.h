@@ -13,3 +13,6 @@ struct gimi_config {
 
 struct gimi_config *config_read();
 void config_free(struct gimi_config *cfg);
+
+struct gimi_config_provider *config_find_provider(struct gimi_config *cfg,
+                                                  char *name);
