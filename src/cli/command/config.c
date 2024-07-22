@@ -7,7 +7,8 @@
 int cli_command_config(int argc, char **argv) {
   struct gimi_config *cfg = config_read();
   if (!cfg) {
-    printf("Missing gimi config. Initialize it using gimi init command.");
+    printf(
+        "error: missing gimi config, initialize it using gimi init command.");
     return 1;
   }
 
