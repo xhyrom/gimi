@@ -61,8 +61,8 @@ int provider_sync(int argc, char **argv) {
   config_free(cfg);
 
   char command[100];
-  snprintf(command, sizeof(command), "git remote add %s %s", provider->name,
-           provider->ssh);
+  snprintf(command, sizeof(command), "git remote add gimi-%s %s",
+           provider->name, provider->ssh);
 
   int ret = system(command);
   if (ret != 0) {
