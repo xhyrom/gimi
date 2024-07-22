@@ -5,7 +5,7 @@
 #include <string.h>
 #include <toml.h>
 
-gimi_config *config_read() {
+struct gimi_config *config_read() {
   FILE *file_ptr;
   char errbuf[200];
 
@@ -22,18 +22,21 @@ gimi_config *config_read() {
     size++;
   }
 
-  gimi_config *cfg = (gimi_config *)malloc(sizeof(gimi_config));
+  struct gimi_config *cfg =
+      (struct gimi_config *)malloc(sizeof(struct gimi_config));
 
   cfg->providers_size = size;
-  cfg->providers = malloc(cfg->providers_size * sizeof(gimi_config_provider));
+  cfg->providers =
+      malloc(cfg->providers_size * sizeof(struct gimi_config_provider));
 
   for (int i = 0; i < size; i++) {
     const char *key = toml_key_in(toml_providers, i);
 
     toml_table_t *toml_provider = toml_table_in(toml_providers, key);
 
-    gimi_config_provider *provider =
-        (gimi_config_provider *)malloc(sizeof(gimi_config_provider));
+    struct gimi_config_provider *provider =
+        (struct gimi_config_provider *)malloc(
+            sizeof(struct gimi_config_provider));
 
     toml_datum_t ssh = toml_string_in(toml_provider, "ssh");
     provider->ssh = strdup(ssh.u.s);
@@ -53,4 +56,9 @@ gimi_config *config_read() {
   toml_free(toml_cfg);
 
   return cfg;
+}
+
+void config_free(struct gimi_config *cfg) {
+  free(cfg->providers);
+  free(cfg);
 }

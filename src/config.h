@@ -1,13 +1,14 @@
 #include <stdbool.h>
 
-typedef struct {
+struct gimi_config_provider {
   char *ssh;
   bool primary;
-} gimi_config_provider;
+};
 
-typedef struct {
+struct gimi_config {
   int providers_size;
-  gimi_config_provider **providers;
-} gimi_config;
+  struct gimi_config_provider **providers;
+};
 
-gimi_config *config_read();
+struct gimi_config *config_read();
+void config_free(struct gimi_config *cfg);
