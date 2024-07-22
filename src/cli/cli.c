@@ -19,11 +19,11 @@ int cli_handle(int argc, char **argv) {
   char *sub_command = argv[0];
 
   if (strcmp(sub_command, "init") == 0) {
-    cli_command_init(argc, argv);
+    return cli_command_init(argc, argv);
   }
 
   if (strcmp(sub_command, "config") == 0) {
-    cli_command_config(argc, argv);
+    return cli_command_config(argc, argv);
   }
 
   return 0;
