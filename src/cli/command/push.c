@@ -62,7 +62,7 @@ int cli_command_push(int argc, char **argv) {
 
   char *branch_name = get_current_branch_name();
 
-  for (int i = 0; i < 1; i++) {
+  for (int i = 0; i < cfg->providers_size; i++) {
     struct gimi_config_provider *provider = cfg->providers[i];
 
     int ret = git_push(provider->name, branch_name, verbose);
