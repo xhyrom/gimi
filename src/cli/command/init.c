@@ -16,6 +16,12 @@ void cli_command_init(int argc, char **argv) {
     return;
   }
 
+  struct stat stats;
+  if (stat(".git", &stats) != 0 || !S_ISDIR(stats.st_mode)) {
+    printf("Missing .git directory. Use git init to initialize git.\n");
+    return;
+  }
+
   char cwd[PATH_MAX];
   if (getcwd(cwd, sizeof(cwd)) == NULL) {
     printf("Failed to get current working directory.\n");

@@ -10,6 +10,9 @@ struct gimi_config *config_read() {
   char errbuf[200];
 
   file_ptr = fopen(".gimi/config.toml", "r");
+  if (!file_ptr) {
+    return NULL;
+  }
 
   toml_table_t *toml_cfg = toml_parse_file(file_ptr, errbuf, sizeof(errbuf));
   fclose(file_ptr);
