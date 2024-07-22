@@ -4,3 +4,5 @@ ssh = "git@git.sr.ht:~hyro/gimi"
 primary = true
 [providers.github]
 ssh = "git@github.com:xhyrom/gimi.git"
+[providers.codeberg]
+ssh = "git@codeberg.org:xHyroM/gimi.git"
