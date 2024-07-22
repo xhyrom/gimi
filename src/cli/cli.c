@@ -1,4 +1,5 @@
 #include "../gimi_constants.h"
+#include "command/config.h"
 #include "command/init.h"
 #include <stdio.h>
 #include <string.h>
@@ -19,6 +20,10 @@ int cli_handle(int argc, char **argv) {
 
   if (strcmp(sub_command, "init") == 0) {
     cli_command_init(argc, argv);
+  }
+
+  if (strcmp(sub_command, "config") == 0) {
+    cli_command_config(argc, argv);
   }
 
   return 0;

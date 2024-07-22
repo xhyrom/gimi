@@ -1,0 +1,6 @@
+[providers]
+[providers.sourcehut]
+ssh = "git@git.sr.ht:~hyro/gimi"
+primary = true
+[providers.github]
+ssh = "git@github.com:xhyrom/gimi.git"

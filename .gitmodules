@@ -1,0 +1,3 @@
+[submodule "libs/tomlc99"]
+	path = libs/tomlc99
+	url = https://github.com/cktan/tomlc99

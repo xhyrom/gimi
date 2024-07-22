@@ -188,6 +188,9 @@ _deps
 # External projects
 *-prefix/
 
+### clangd ###
+.cache/
+
 ### VisualStudioCode ###
 .vscode/*
 !.vscode/settings.json
