@@ -29,7 +29,6 @@ int provider_info(int argc, char **argv) {
   ASSERT_CONFIG_EXIST(cfg);
 
   struct gimi_config_provider *provider = config_find_provider(cfg, argv[1]);
-  config_free(cfg);
 
   if (!provider) {
     printf("error: no such provider '%s'", argv[1]);
@@ -40,6 +39,7 @@ int provider_info(int argc, char **argv) {
   printf("ssh: %s\n", provider->ssh);
   printf("primary: %d\n", provider->primary);
 
+  config_free(cfg);
   free(provider);
 
   return 0;
@@ -55,7 +55,6 @@ int provider_sync(int argc, char **argv) {
   ASSERT_CONFIG_EXIST(cfg);
 
   struct gimi_config_provider *provider = config_find_provider(cfg, argv[1]);
-  config_free(cfg);
 
   char command[100];
   snprintf(command, sizeof(command), "git remote add gimi-%s %s",
@@ -69,6 +68,9 @@ int provider_sync(int argc, char **argv) {
     printf("info: provider '%s' has been successfully synced with git.",
            provider->name);
   }
+
+  config_free(cfg);
+  free(provider);
 
   return 0;
 }
