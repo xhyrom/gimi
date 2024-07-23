@@ -8,7 +8,7 @@
 
 char *get_current_branch_name() {
   FILE *file_ptr;
-  static char output[256];
+  char output[256];
 
   file_ptr = popen("git rev-parse --abbrev-ref HEAD", "r");
   if (file_ptr == NULL) {

@@ -64,6 +64,11 @@ struct gimi_config *config_read() {
 }
 
 void config_free(struct gimi_config *cfg) {
+  for (int i = 0; i < cfg->providers_size; i++) {
+    free(cfg->providers[i]->name);
+    free(cfg->providers[i]->ssh);
+  }
+
   free(cfg->providers);
   free(cfg);
 }

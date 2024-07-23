@@ -5,12 +5,18 @@ sources:
   - "https://git.sr.ht/~hyro/gimi"
 secrets:
   - 55691174-b52f-477c-81ea-dd32deff19b8
+  - 3eaa5e52-e929-4822-842b-e817e0be7e39
 tasks:
   - sync: |
       cd gimi
       set +x
+
       git remote add gimi-github git@github.com:xhyrom/gimi.git
       ssh-keyscan github.com >> ~/.ssh/known_hosts
-      git push -f --all gimi-github
-      git push -f --tags gimi-github
+      git push -f --all --tags gimi-github
+
+      git remote add gimi-codeberg git@codeberg.org:xHyroM/gimi.git
+      ssh-keyscan codeberg.org >> ~/.ssh/known_hosts
+      git push -f --all --tags gimi-codeberg
+
       set -x

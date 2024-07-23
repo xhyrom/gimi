@@ -10,7 +10,7 @@
 
 int cli_command_init(int argc, char **argv) {
   errno = 0;
-  int ret = mkdir(".gimi", S_IRWXU);
+  int ret = mkdir(".gimi", S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
   if (ret == -1 && errno != EEXIST) {
     printf("error: failed to initialize gimi.\n");
     return 1;
