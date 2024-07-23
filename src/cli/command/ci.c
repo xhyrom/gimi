@@ -104,6 +104,8 @@ char *generate_sourcehut(struct gimi_config *cfg,
 
 int generate(int argc, char **argv) {
   struct gimi_config *cfg = config_read();
+  ASSERT_CONFIG_EXIST(cfg);
+
   struct gimi_config_provider *provider;
 
   if (argc == 2) {

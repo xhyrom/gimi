@@ -6,11 +6,7 @@
 
 int cli_command_config(int argc, char **argv) {
   struct gimi_config *cfg = config_read();
-  if (!cfg) {
-    printf(
-        "error: missing gimi config, initialize it using gimi init command.");
-    return 1;
-  }
+  ASSERT_CONFIG_EXIST(cfg);
 
   for (int i = 0; i < cfg->providers_size; i++) {
     struct gimi_config_provider *provider = cfg->providers[i];

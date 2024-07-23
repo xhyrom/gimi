@@ -1,5 +1,12 @@
 #include <stdbool.h>
 
+#define ASSERT_CONFIG_EXIST(cfg)                                               \
+  if (!cfg) {                                                                  \
+    printf(                                                                    \
+        "error: missing gimi config, initialize it using gimi init command."); \
+    return 1;                                                                  \
+  }
+
 struct gimi_config_provider {
   char *name;
   char *ssh;

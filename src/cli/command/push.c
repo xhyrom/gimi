@@ -55,8 +55,7 @@ int git_push(char *provider_name, char *branch_name, bool verbose) {
 
 int cli_command_push(int argc, char **argv) {
   struct gimi_config *cfg = config_read();
-  if (!cfg)
-    return 1;
+  ASSERT_CONFIG_EXIST(cfg);
 
   bool verbose = argc == 2 && strcmp(argv[1], "--verbose") == 0;
 

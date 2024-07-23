@@ -7,8 +7,7 @@
 
 int providers() {
   struct gimi_config *cfg = config_read();
-  if (!cfg)
-    return 1;
+  ASSERT_CONFIG_EXIST(cfg);
 
   for (int i = 0; i < cfg->providers_size; i++) {
     struct gimi_config_provider *provider = cfg->providers[i];
@@ -27,8 +26,7 @@ int provider_info(int argc, char **argv) {
   }
 
   struct gimi_config *cfg = config_read();
-  if (!cfg)
-    return 1;
+  ASSERT_CONFIG_EXIST(cfg);
 
   struct gimi_config_provider *provider = config_find_provider(cfg, argv[1]);
   config_free(cfg);
@@ -54,8 +52,7 @@ int provider_sync(int argc, char **argv) {
   }
 
   struct gimi_config *cfg = config_read();
-  if (!cfg)
-    return 1;
+  ASSERT_CONFIG_EXIST(cfg);
 
   struct gimi_config_provider *provider = config_find_provider(cfg, argv[1]);
   config_free(cfg);
