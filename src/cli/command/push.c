@@ -34,8 +34,8 @@ int git_push(char *provider_name, char *branch_name, bool verbose) {
   char output[1024];
   char command[256];
 
-  snprintf(command, sizeof(command), "git push gimi-%s %s 2>&1", provider_name,
-           branch_name);
+  snprintf(command, sizeof(command), "git push -o skip-ci gimi-%s %s 2>&1",
+           provider_name, branch_name);
 
   file_ptr = popen(command, "r");
   if (file_ptr == NULL) {
