@@ -4,11 +4,12 @@ packages:
 sources:
   - "https://git.sr.ht/~hyro/gimi"
 secrets:
-  - 55691174-b52f-477c-81ea-dd32deff19b8now
+  - 55691174-b52f-477c-81ea-dd32deff19b8
 tasks:
   - sync: |
       set +x
       git remote add gimi-github git@github.com:xhyrom/gimi.git
+      ssh-keyscan github.com >> ~/.ssh/known_hosts
       git push -f --all gimi-github
       git push -f --tags gimi-github
       set -x
