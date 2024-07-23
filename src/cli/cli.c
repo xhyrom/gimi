@@ -1,4 +1,5 @@
 #include "../gimi_constants.h"
+#include "command/ci.h"
 #include "command/config.h"
 #include "command/init.h"
 #include "command/provider.h"
@@ -20,12 +21,16 @@ void cli_print_version() {
 int cli_handle(int argc, char **argv) {
   char *sub_command = argv[0];
 
-  if (strcmp(sub_command, "init") == 0) {
-    return cli_command_init(argc, argv);
+  if (strcmp(sub_command, "ci") == 0) {
+    return cli_command_ci(argc, argv);
   }
 
   if (strcmp(sub_command, "config") == 0) {
     return cli_command_config(argc, argv);
+  }
+
+  if (strcmp(sub_command, "init") == 0) {
+    return cli_command_init(argc, argv);
   }
 
   if (strcmp(sub_command, "provider") == 0) {

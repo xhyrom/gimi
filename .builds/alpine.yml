@@ -1,0 +1,14 @@
+image: alpine/latest
+packages:
+  - git
+sources:
+  - "https://git.sr.ht/~hyro/gimi"
+secrets:
+  - 55691174-b52f-477c-81ea-dd32deff19b8now
+tasks:
+  - sync: |
+      set +x
+      git remote add gimi-github git@github.com:xhyrom/gimi.git
+      git push -f --all gimi-github
+      git push -f --tags gimi-github
+      set -x

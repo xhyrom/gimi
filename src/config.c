@@ -74,6 +74,7 @@ struct gimi_config_provider *config_find_provider(struct gimi_config *cfg,
   for (int i = 0; i < cfg->providers_size; i++) {
     if (strcmp(cfg->providers[i]->name, name) == 0) {
       provider = cfg->providers[i];
+      break;
     }
   }
 
