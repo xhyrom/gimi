@@ -34,7 +34,14 @@ int git_push(char *provider_name, char *branch_name, bool verbose) {
   char output[1024];
   char command[256];
 
-  snprintf(command, sizeof(command), "git push -o skip-ci gimi-%s %s 2>&1",
+  char push_option[50] = "";
+  if (strcmp(provider_name, "sourcehut") == 0) {
+    strcat(push_option, " -o skip-ci");
+  } else if (strcmp(provider_name, "gitlab") == 0) {
+    strcat(push_option, " -o ci.skip");
+  }
+
+  snprintf(command, sizeof(command), "git push%s gimi-%s %s 2>&1", push_option,
            provider_name, branch_name);
 
   file_ptr = popen(command, "r");
