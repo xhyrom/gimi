@@ -4,8 +4,8 @@ packages:
 sources:
   - "https://git.sr.ht/~hyro/gimi"
 secrets:
-  - 55691174-b52f-477c-81ea-dd32deff19b8
-  - 3eaa5e52-e929-4822-842b-e817e0be7e39
+  - 55691174-b52f-477c-81ea-dd32deff19b8 # github
+  - 3eaa5e52-e929-4822-842b-e817e0be7e39 # codeberg
 tasks:
   - sync: |
       cd gimi
@@ -13,10 +13,14 @@ tasks:
 
       git remote add gimi-github git@github.com:xhyrom/gimi.git
       ssh-keyscan github.com >> ~/.ssh/known_hosts
-      git push -f --all --tags gimi-github
+      echo -e "Host github.com\nUser git\nIdentityFile ${HOME}/.ssh/55691174-b52f-477c-81ea-dd32deff19b8" >> ~/.ssh/config
+      git push -f --all gimi-github
+      git push -f --tags gimi-github
 
       git remote add gimi-codeberg git@codeberg.org:xHyroM/gimi.git
       ssh-keyscan codeberg.org >> ~/.ssh/known_hosts
-      git push -f --all --tags gimi-codeberg
+      echo -e "Host codeberg.org\nUser git\nIdentityFile ${HOME}/.ssh/3eaa5e52-e929-4822-842b-e817e0be7e39" >> ~/.ssh/config
+      git push -f --all gimi-codeberg
+      git push -f --tags gimi-codeberg
 
       set -x

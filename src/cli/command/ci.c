@@ -13,7 +13,7 @@
   "sources:\n"                                                                 \
   "  - \"https://%s/%s/%s\"\n"                                                 \
   "secrets:\n"                                                                 \
-  "  - <add>\n"                                                                \
+  "  - <secret>\n"                                                             \
   "tasks:\n"                                                                   \
   "  - sync: |\n"                                                              \
   "      cd %s\n"                                                              \
@@ -74,15 +74,17 @@ char *generate_sourcehut(struct gimi_config *cfg,
 
     struct repository *repo = translate_ssh_to_repository(provider->ssh);
 
-    char buf[256];
+    char buf[1024];
     snprintf(buf, sizeof(buf),
              "\n"
              "\n      git remote add gimi-%s %s "
              "\n      ssh-keyscan %s >> ~/.ssh/known_hosts"
+             "\n      echo -e \"Host %s\\nUser git\\nIdentityFile "
+             "${HOME}/.ssh/<secret>\" >> ~/.ssh/config"
              "\n      git push -f --all gimi-%s"
              "\n      git push -f --tags gimi-%s",
-             provider->name, provider->ssh, repo->domain, provider->name,
-             provider->name);
+             provider->name, provider->ssh, repo->domain, repo->domain,
+             provider->name, provider->name);
 
     strcat(remotes, buf);
 
