@@ -79,8 +79,10 @@ char *generate_sourcehut(struct gimi_config *cfg,
              "\n"
              "\n      git remote add gimi-%s %s "
              "\n      ssh-keyscan %s >> ~/.ssh/known_hosts"
-             "\n      git push -f --all --tags gimi-%s",
-             provider->name, provider->ssh, repo->domain, provider->name);
+             "\n      git push -f --all gimi-%s"
+             "\n      git push -f --tags gimi-%s",
+             provider->name, provider->ssh, repo->domain, provider->name,
+             provider->name);
 
     strcat(remotes, buf);
 
