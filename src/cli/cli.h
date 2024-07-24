@@ -19,6 +19,12 @@
     break;                                                                     \
   }
 
+#define OPTION_WITH_ARG(opt, func, arg)                                        \
+  case opt: {                                                                  \
+    func(arg);                                                                 \
+    break;                                                                     \
+  }
+
 void cli_print_help();
 void cli_print_version();
 
