@@ -36,19 +36,22 @@ int git_push(char *provider_name, char *branch_name, bool tags, bool verbose) {
   char output[1024];
   char command[256];
 
-  char push_args[50] = "";
-  if (tags) {
-    strcat(push_args, " --tags");
-  } else {
-    if (strcmp(provider_name, "sourcehut") == 0) {
-      strcat(push_args, " -o skip-ci");
-    } else if (strcmp(provider_name, "gitlab") == 0) {
-      strcat(push_args, " -o ci.skip");
-    }
+  char push_options[50] = "";
+  if (strcmp(provider_name, "sourcehut") == 0) {
+    strcat(push_options, " -o skip-ci");
+  } else if (strcmp(provider_name, "gitlab") == 0) {
+    strcat(push_options, " -o ci.skip");
   }
 
-  snprintf(command, sizeof(command), "git push%s gimi-%s %s 2>&1", push_args,
-           provider_name, branch_name);
+  char branch_or_tags[256] = "";
+  if (tags) {
+    strcat(branch_or_tags, "--tags");
+  } else {
+    strcat(branch_or_tags, branch_name);
+  }
+
+  snprintf(command, sizeof(command), "git push%s gimi-%s %s 2>&1", push_options,
+           provider_name, branch_or_tags);
 
   file_ptr = popen(command, "r");
   if (file_ptr == NULL) {
