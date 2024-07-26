@@ -13,15 +13,9 @@
   argc -= optind;                                                              \
   argv += optind;
 
-#define OPTION(opt, func)                                                      \
+#define OPTION(opt, func, ...)                                                 \
   case opt: {                                                                  \
-    func();                                                                    \
-    break;                                                                     \
-  }
-
-#define OPTION_WITH_ARG(opt, func, arg)                                        \
-  case opt: {                                                                  \
-    func(arg);                                                                 \
+    func(__VA_ARGS__);                                                         \
     break;                                                                     \
   }
 

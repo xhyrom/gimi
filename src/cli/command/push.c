@@ -80,8 +80,8 @@ int cli_command_push(int argc, char **argv) {
   bool verbose = false;
 
   HANDLE_OPTIONS(argc, argv, "tv",
-                 OPTION_WITH_ARG('t', set_tags, &tags)
-                     OPTION_WITH_ARG('v', set_verbose, &verbose));
+                 OPTION('t', set_tags, &tags)
+                     OPTION('v', set_verbose, &verbose));
 
   char *branch_name = get_current_branch_name();
 
