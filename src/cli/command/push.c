@@ -8,6 +8,9 @@
 #include <string.h>
 #include <unistd.h>
 
+#define PUSH_TAGS_OPTION 1 << 0
+#define VERBOSE_OPTION 1 << 1
+
 char *get_current_branch_name() {
   FILE *file_ptr;
   char output[256];
@@ -31,7 +34,7 @@ char *get_current_branch_name() {
   return branch;
 }
 
-int git_push(char *provider_name, char *branch_name, bool tags, bool verbose) {
+int git_push(char *provider_name, char *branch_name, int options) {
   FILE *file_ptr;
   char output[1024];
   char command[256];
@@ -44,7 +47,7 @@ int git_push(char *provider_name, char *branch_name, bool tags, bool verbose) {
   }
 
   char branch_or_tags[256] = "";
-  if (tags) {
+  if (options & PUSH_TAGS_OPTION) {
     strcat(branch_or_tags, "--tags");
   } else {
     strcat(branch_or_tags, branch_name);
@@ -60,7 +63,7 @@ int git_push(char *provider_name, char *branch_name, bool tags, bool verbose) {
 
   while (fgets(output, sizeof(output), file_ptr) !=
          NULL) { // need to process for valid exit code
-    if (verbose) {
+    if (options & VERBOSE_OPTION) {
       printf("%s", output);
     }
   }
@@ -69,26 +72,22 @@ int git_push(char *provider_name, char *branch_name, bool tags, bool verbose) {
   return ret;
 }
 
-void set_verbose(bool *verbose) { *verbose = true; }
-void set_tags(bool *tags) { *tags = true; }
-
 int cli_command_push(int argc, char **argv) {
   struct gimi_config *cfg = config_read();
   ASSERT_CONFIG_EXIST(cfg);
 
-  bool tags = false;
-  bool verbose = false;
+  int options = 0;
 
   HANDLE_OPTIONS(argc, argv, "tv",
-                 OPTION('t', set_tags, &tags)
-                     OPTION('v', set_verbose, &verbose));
+                 MASK_OPTION('t', options, PUSH_TAGS_OPTION)
+                     MASK_OPTION('v', options, VERBOSE_OPTION));
 
   char *branch_name = get_current_branch_name();
 
   for (int i = 0; i < cfg->providers_size; i++) {
     struct gimi_config_provider *provider = cfg->providers[i];
 
-    int ret = git_push(provider->name, branch_name, tags, verbose);
+    int ret = git_push(provider->name, branch_name, options);
     if (ret != 0) {
       printf("error: failed to push into '%s' with git's exit code %d.\n",
              provider->name, ret);

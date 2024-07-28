@@ -19,6 +19,12 @@
     break;                                                                     \
   }
 
+#define MASK_OPTION(opt, mask, field)                                          \
+  case opt: {                                                                  \
+    mask |= field;                                                             \
+    break;                                                                     \
+  }
+
 void cli_print_help();
 void cli_print_version();
 
