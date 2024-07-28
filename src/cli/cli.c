@@ -18,7 +18,7 @@
   "   push       Push all branches or tags to all providers\n\n"               \
   "Options:\n"                                                                 \
   "   -h, --help     Show this help message and exit\n"                        \
-  "   -v, --version  Show the version of gimi"
+  "   -v, --version  Show the version of gimi\n"
 
 void cli_print_help() { printf("%s", HELP); }
 void cli_print_version() {
