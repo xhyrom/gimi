@@ -11,11 +11,11 @@
   "Usage: gimi [-h | --help] [-v | --version]\n\n"                             \
   "A simple tool for managing multiple git remotes as mirrors\n\n"             \
   "Useful commands for working with gimi:\n"                                   \
-  "   ci         Generate CI configuration for a specific provider\n"          \
-  "   config     Manage gimi configuration settings\n"                         \
-  "   init       Initialize a gimi project in the current workspace\n"         \
-  "   provider   Manage providers (git remotes as mirrors)\n"                  \
-  "   push       Push all branches or tags to all providers\n\n"               \
+  "   ci             Generate CI configuration for a specific provider\n"      \
+  "   config         Manage gimi configuration settings\n"                     \
+  "   init           Initialize a gimi project in the current workspace\n"     \
+  "   provider       Manage providers (git remotes as mirrors)\n"              \
+  "   push           Push all branches or tags to all providers\n\n"           \
   "Options:\n"                                                                 \
   "   -h, --help     Show this help message and exit\n"                        \
   "   -v, --version  Show the version of gimi\n"
