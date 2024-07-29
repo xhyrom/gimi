@@ -5,6 +5,14 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define HELP                                                                   \
+  "Usage: gimi provider [-h | --help]\n\n"                                     \
+  "Commands for working with gimi provider:\n"                                 \
+  "   info         Print info about the provider\n"                            \
+  "   sync         Synchronize gimi provider with git\n\n"                     \
+  "Options:\n"                                                                 \
+  "   -h, --help   Show this help message and exit\n"
+
 int providers() {
   struct gimi_config *cfg = config_read();
   ASSERT_CONFIG_EXIST(cfg);
@@ -85,6 +93,11 @@ int cli_command_provider(int argc, char **argv) {
   argv += 1;
 
   char *subcommand = argv[0];
+
+  if (strcmp(argv[0], "--help") == 0 || strcmp(argv[0], "-h") == 0) {
+    printf("%s", HELP);
+    return 0;
+  }
 
   if (strcmp(subcommand, "info") == 0) {
     return provider_info(argc, argv);
