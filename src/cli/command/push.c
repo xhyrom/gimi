@@ -20,19 +20,22 @@ char *get_current_branch_name() {
     return NULL;
   }
 
-  char *branch = fgets(output, sizeof(output), file_ptr);
-  if (branch != NULL) {
-    // remove new line
-    size_t len = strlen(branch);
-    if (len > 0 && branch[len - 1] == '\n') {
-      branch[len - 1] = '\0';
-    }
+  if (fgets(output, sizeof(output), file_ptr) == NULL) {
+    pclose(file_ptr);
+    return NULL;
+  }
+
+  // remove new line
+  size_t len = strlen(output);
+  if (len > 0 && output[len - 1] == '\n') {
+    output[len - 1] = '\0';
   }
 
   pclose(file_ptr);
 
-  return branch;
+  return strdup(output);
 }
+
 
 int git_push(char *provider_name, char *branch_name, int options) {
   FILE *file_ptr;
@@ -97,6 +100,7 @@ int cli_command_push(int argc, char **argv) {
     printf("info: successfully pushed into '%s'.\n", provider->name);
   }
 
+  free(branch_name);
   config_free(cfg);
 
   return 0;
