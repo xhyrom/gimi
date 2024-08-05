@@ -10,6 +10,7 @@
 
 #define PUSH_TAGS_OPTION 1 << 0
 #define VERBOSE_OPTION 1 << 1
+#define DELETE_BRANCH_OPTION 1 << 2
 
 char *get_current_branch_name() {
   FILE *file_ptr;
@@ -36,17 +37,21 @@ char *get_current_branch_name() {
   return strdup(output);
 }
 
-
 int git_push(char *provider_name, char *branch_name, int options) {
   FILE *file_ptr;
   char output[1024];
   char command[256];
 
   char push_options[50] = "";
-  if (strcmp(provider_name, "sourcehut") == 0) {
-    strcat(push_options, " -o skip-ci");
-  } else if (strcmp(provider_name, "gitlab") == 0) {
-    strcat(push_options, " -o ci.skip");
+
+  if (options & DELETE_BRANCH_OPTION) {
+    strcat(push_options, " -d");
+  } else {
+    if (strcmp(provider_name, "sourcehut") == 0) {
+      strcat(push_options, " -o skip-ci");
+    } else if (strcmp(provider_name, "gitlab") == 0) {
+      strcat(push_options, " -o ci.skip");
+    }
   }
 
   char branch_or_tags[256] = "";
@@ -81,9 +86,16 @@ int cli_command_push(int argc, char **argv) {
 
   int options = 0;
 
-  HANDLE_OPTIONS(argc, argv, "tv",
+  HANDLE_OPTIONS(argc, argv, "tvd",
                  MASK_OPTION('t', options, PUSH_TAGS_OPTION)
-                     MASK_OPTION('v', options, VERBOSE_OPTION));
+                     MASK_OPTION('v', options, VERBOSE_OPTION)
+                         MASK_OPTION('d', options, DELETE_BRANCH_OPTION));
+
+  if ((options & DELETE_BRANCH_OPTION) && (options & PUSH_TAGS_OPTION)) {
+    printf(
+        "error: options '-d' (delete) and '-t' (tags) cannot be used together");
+    return 1;
+  }
 
   char *branch_name = get_current_branch_name();
 
