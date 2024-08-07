@@ -92,8 +92,8 @@ int cli_command_push(int argc, char **argv) {
                          MASK_OPTION('d', options, DELETE_BRANCH_OPTION));
 
   if ((options & DELETE_BRANCH_OPTION) && (options & PUSH_TAGS_OPTION)) {
-    printf(
-        "error: options '-d' (delete) and '-t' (tags) cannot be used together");
+    printf("error: options '-d' (delete) and '-t' (tags) cannot be used "
+           "together\n");
     return 1;
   }
 

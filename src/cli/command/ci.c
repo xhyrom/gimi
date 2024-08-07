@@ -112,7 +112,7 @@ int generate(int argc, char **argv) {
     provider = config_find_provider(cfg, argv[1]);
 
     if (provider == NULL) {
-      printf("error: no such provider '%s'", argv[1]);
+      printf("error: no such provider '%s'\n", argv[1]);
       return 1;
     }
   } else {
@@ -124,7 +124,7 @@ int generate(int argc, char **argv) {
     }
 
     if (provider == NULL) {
-      printf("error: can't find primary provider");
+      printf("error: can't find primary provider\n");
       return 1;
     }
   };
@@ -135,14 +135,15 @@ int generate(int argc, char **argv) {
 
     int ret = mkdir(".builds", S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
     if (ret != 0 && errno != EEXIST) {
-      printf("error: failed to create directory .builds with errno %d", errno);
+      printf("error: failed to create directory .builds with errno %d\n",
+             errno);
       return ret;
     }
 
     FILE *file_ptr;
     file_ptr = fopen(".builds/gimi.yml", "w");
     if (file_ptr == NULL) {
-      printf("error: failed to open file .builds/gimi.yml");
+      printf("error: failed to open file .builds/gimi.yml\n");
       return 1;
     }
 
@@ -150,7 +151,7 @@ int generate(int argc, char **argv) {
 
     fclose(file_ptr);
   } else {
-    printf("error: provider '%s' is not supported, create the ci yourself.",
+    printf("error: provider '%s' is not supported, create the ci yourself.\n",
            provider->name);
 
     config_free(cfg);
@@ -166,7 +167,7 @@ int generate(int argc, char **argv) {
 
 int cli_command_ci(int argc, char **argv) {
   if (argc == 1) {
-    printf("usage: gimi ci generate [provider]");
+    printf("usage: gimi ci generate [provider]\n");
     return 1;
   }
 

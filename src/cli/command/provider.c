@@ -29,7 +29,7 @@ int providers() {
 
 int provider_info(int argc, char **argv) {
   if (argc == 1) {
-    printf("usage: gimi provider info <name>");
+    printf("usage: gimi provider info <name>\n");
     return 1;
   }
 
@@ -39,7 +39,7 @@ int provider_info(int argc, char **argv) {
   struct gimi_config_provider *provider = config_find_provider(cfg, argv[1]);
 
   if (!provider) {
-    printf("error: no such provider '%s'", argv[1]);
+    printf("error: no such provider '%s'\n", argv[1]);
     return 1;
   }
 
@@ -55,7 +55,7 @@ int provider_info(int argc, char **argv) {
 
 int provider_sync(int argc, char **argv) {
   if (argc == 1) {
-    printf("usage: gimi provider sync [--all] [name]");
+    printf("usage: gimi provider sync [--all] [name]\n");
     return 1;
   }
 
