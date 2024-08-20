@@ -1,5 +1,5 @@
 #include "../gimi_constants.h"
-#include "command/ci.h"
+#include "command/ci/ci.h"
 #include "command/config.h"
 #include "command/init.h"
 #include "command/provider.h"
