@@ -97,7 +97,7 @@ int cli_command_push(int argc, char **argv) {
     return 1;
   }
 
-  char *branch_name = get_current_branch_name();
+  char *branch_name = argc == 1 ? argv[0] : get_current_branch_name();
 
   for (int i = 0; i < cfg->providers_size; i++) {
     struct gimi_config_provider *provider = cfg->providers[i];
