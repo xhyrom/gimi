@@ -1,3 +1,5 @@
+#pragma once
+
 #define HANDLE_OPTIONS(argc, argv, optstring, ...)                             \
   int opt;                                                                     \
   opterr = 0;                                                                  \
