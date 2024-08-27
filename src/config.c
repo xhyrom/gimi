@@ -63,6 +63,30 @@ struct gimi_config *config_read() {
   return cfg;
 }
 
+void config_write(struct gimi_config *cfg) {
+  FILE *file_ptr;
+
+  file_ptr = fopen(".gimi/config.toml", "w");
+  if (!file_ptr) {
+    return;
+  }
+
+  fprintf(file_ptr, "[providers]");
+
+  for (int i = 0; i < cfg->providers_size; i++) {
+    struct gimi_config_provider *provider = cfg->providers[i];
+
+    fprintf(file_ptr, "\n[providers.%s]\nssh = \"%s\"", provider->name,
+            provider->ssh);
+
+    if (provider->primary) {
+      fprintf(file_ptr, "\nprimary = true");
+    }
+  }
+
+  fclose(file_ptr);
+}
+
 void config_free(struct gimi_config *cfg) {
   for (int i = 0; i < cfg->providers_size; i++) {
     free(cfg->providers[i]->name);

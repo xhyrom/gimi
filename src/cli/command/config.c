@@ -1,5 +1,4 @@
 #include "../../config.h"
-#include "../cli.h"
 #include <stdio.h>
 
 #define INIT_CONFIG "[providers]\n"
