@@ -5,6 +5,42 @@
 #include <string.h>
 #include <toml.h>
 
+char *ssh_to_http(char *ssh) {
+  if (ssh == NULL)
+    return NULL;
+
+  if (strncmp(ssh, "git@", 4) != 0)
+    return NULL;
+
+  size_t len = strlen(ssh);
+  char *https = (char *)malloc(len + 10); // 8 for https://, 1 for /, 1 for \0
+  if (https == NULL)
+    return NULL;
+
+  strcpy(https, "https://");
+
+  char *colon = strchr(ssh + 4, ':');
+  if (colon == NULL) {
+    free(https);
+    return NULL;
+  }
+
+  size_t domain_len = colon - (ssh + 4);
+  strncat(https, ssh + 4, domain_len);
+
+  strcat(https, "/");
+
+  char *path = colon + 1;
+  char *git_ext = strstr(path, ".git");
+  if (git_ext != NULL) {
+    *git_ext = '\0';
+  }
+
+  strcat(https, path);
+
+  return https;
+}
+
 struct gimi_config *config_read() {
   FILE *file_ptr;
   char errbuf[200];
@@ -45,6 +81,8 @@ struct gimi_config *config_read() {
 
     toml_datum_t ssh = toml_string_in(toml_provider, "ssh");
     provider->ssh = strdup(ssh.u.s);
+
+    provider->http = ssh_to_http(provider->ssh);
 
     toml_datum_t toml_primary = toml_bool_in(toml_provider, "primary");
     if (!toml_primary.ok) {
@@ -91,6 +129,7 @@ void config_free(struct gimi_config *cfg) {
   for (int i = 0; i < cfg->providers_size; i++) {
     free(cfg->providers[i]->name);
     free(cfg->providers[i]->ssh);
+    free(cfg->providers[i]->http);
   }
 
   free(cfg->providers);

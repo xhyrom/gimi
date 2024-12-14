@@ -109,7 +109,12 @@ int cli_command_push(int argc, char **argv) {
       break;
     }
 
-    printf("info: successfully pushed into '%s'.\n", provider->name);
+    if (provider->http != NULL) {
+      printf("info: successfully pushed into '%s' @ %s\n", provider->name,
+             provider->http);
+    } else {
+      printf("info: successfully pushed into '%s'.\n", provider->name);
+    }
   }
 
   free(branch_name);

@@ -12,6 +12,7 @@
 struct gimi_config_provider {
   char *name;
   char *ssh;
+  char *http;
   bool primary;
 };
 
